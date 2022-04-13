@@ -1,0 +1,35 @@
+version: "3"
+services:
+  hub:
+    image: selenium/hub:4.1.3
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+
+  chrome:
+    image: selenium/node-chrome:4.1.3
+    shm_size: '3gb'
+    depends_on:
+      - hub
+    links:
+      - hub
+    environment:
+      - SE_EVENT_BUS_HOST=hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - VNC_NO_PASSWORD=1
+
+  test:
+    build: .
+    container_name: test
+    depends_on:
+      - chrome
+    links:
+      - hub
+    environment:
+      - HRM_USERNAME=${HRM_USERNAME}
+      - HRM_PASSWORD=${HRM_PASSWORD}
+      - MODULE=testng.xml
+    volumes:
+      - ./src/test/resources/results:/app
