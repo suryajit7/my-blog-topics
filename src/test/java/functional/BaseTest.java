@@ -1,4 +1,4 @@
-package gui;
+package functional;
 
 
 import com.framework.page.site.DashboardPage;
@@ -19,8 +19,6 @@ import org.testng.annotations.BeforeTest;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,8 +36,6 @@ public class BaseTest {
     protected static final int TIMEOUT = 50;
     protected String host;
     protected static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
-    protected static final LocalDate localDate = LocalDate.now();
-    protected static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddLLLLyyyy");
     protected static final String USERNAME = System.getenv("HRM_USERNAME");
     protected static final String PASSWORD = System.getenv("HRM_PASSWORD");
 

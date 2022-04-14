@@ -1,6 +1,6 @@
-package gui.modules;
+package functional.gui.modules;
 
-import gui.BaseTest;
+import functional.BaseTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
