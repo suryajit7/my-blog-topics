@@ -12,17 +12,13 @@ public class ReqResAPITest extends BaseTest {
 
     ReqResService reqResService = new ReqResService();
 
-
     @Test(priority = 0)
     public void verifyGetUsersListApi(){
 
         Response response = reqResService.getAllUsersList();
 
         assertEquals(response.getStatusCode(), SC_SUCCESS);
+        assertEquals(response.body().path("page").toString(), "2");
     }
-
-
-
-
 
 }
