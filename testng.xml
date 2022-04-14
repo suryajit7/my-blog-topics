@@ -6,4 +6,9 @@
             <class name="functional.gui.modules.DashboardTest"/>
         </classes>
     </test>
+    <test verbose="2" preserve-order="true" name="API Tests" >
+        <classes>
+            <class name="functional.api.ReqResAPITest"/>
+        </classes>
+    </test>
 </suite>

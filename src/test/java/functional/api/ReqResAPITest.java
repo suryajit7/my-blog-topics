@@ -5,6 +5,9 @@ import functional.BaseTest;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
 
+import static org.apache.hc.core5.http.HttpStatus.SC_SUCCESS;
+import static org.testng.Assert.assertEquals;
+
 public class ReqResAPITest extends BaseTest {
 
     ReqResService reqResService = new ReqResService();
@@ -14,6 +17,8 @@ public class ReqResAPITest extends BaseTest {
     public void verifyGetUsersListApi(){
 
         Response response = reqResService.getAllUsersList();
+
+        assertEquals(response.getStatusCode(), SC_SUCCESS);
     }
 
 
