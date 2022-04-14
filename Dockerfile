@@ -34,7 +34,6 @@ COPY run.sh                                                 .
 
 WORKDIR /jar/
 
-ENV BROWSER=chrome
 ENV HUB_HOST=hub
 ENV MODULE=testng.xml
 

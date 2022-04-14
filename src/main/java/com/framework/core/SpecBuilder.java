@@ -7,10 +7,9 @@ import io.restassured.specification.ResponseSpecification;
 
 import java.util.HashMap;
 
-import static io.netty.handler.codec.rtsp.RtspHeaders.Values.URL;
+import static com.framework.data.Constants.API_URL;
 import static io.restassured.filter.log.LogDetail.ALL;
 import static io.restassured.http.ContentType.JSON;
-import static io.restassured.http.ContentType.URLENC;
 
 
 public class SpecBuilder {
@@ -18,8 +17,8 @@ public class SpecBuilder {
     public RequestSpecification getRequestSpec(){
         RequestSpecification requestSpec = null;
         return requestSpec = new RequestSpecBuilder()
-                .setBaseUri("")
-                .setBasePath("/local")
+                .setBaseUri(API_URL)
+                .setBasePath("/api")
                 .setContentType(JSON)
                 .log(ALL).build();
     }
@@ -30,14 +29,6 @@ public class SpecBuilder {
                 .log(ALL).build();
     }
 
-    public RequestSpecification getAccountSpec(){
-        RequestSpecification requestSpec = null;
-        return requestSpec = new RequestSpecBuilder()
-                .setBaseUri(URL)
-                .addFormParams(getFormParams())
-                .setContentType(URLENC)
-                .log(ALL).build();
-    }
 
     public HashMap<String, String> getFormParams() {
 

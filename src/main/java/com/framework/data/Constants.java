@@ -5,6 +5,9 @@ package com.framework.data;
  */
 public class Constants {
 
+    public static final String APP_URL = "https://opensource-demo.orangehrmlive.com/";
+    public static final String API_URL = "https://reqres.in/";
+
     public static final String TEST_RESOURCE = "";
 
     //API Related Constants

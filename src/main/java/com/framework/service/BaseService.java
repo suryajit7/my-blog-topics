@@ -22,11 +22,9 @@ public class BaseService {
                 .extract().response();
     }
 
-    public Response post(String path, String id, Object payload){
+    public Response post(String path, Object payload){
         return given(specBuilder.getRequestSpec())
                 .body(payload)
-                .auth().oauth2("")
-                .pathParam(PATH_PARAM, id)
                 .post(path)
                 .then()
                 .spec(specBuilder.getResponseSpec())

@@ -32,8 +32,6 @@ import static org.openqa.selenium.remote.CapabilityType.*;
 public class BaseTest {
 
     protected static final org.slf4j.Logger logger = LoggerFactory.getLogger(BaseTest.class);
-
-    protected static final int TIMEOUT = 50;
     protected String host;
     protected static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     protected static final String USERNAME = System.getenv("HRM_USERNAME");
@@ -53,6 +51,36 @@ public class BaseTest {
     @BeforeTest
     public void beforeClassTestSetup(ITestContext context) throws MalformedURLException {
 
+        if (context.getName().equalsIgnoreCase("UI Regression")) {
+            getRemoteDriver(context);
+        }
+    }
+
+
+    @BeforeClass
+    public void beforeClassSetup(ITestContext context){
+
+        if (context.getName().equalsIgnoreCase("UI Regression")) {
+            loginPage = new LoginPanelPage(driver.get());
+            menuNavigation = new MenuNavigationPage(driver.get());
+            dashboardPage = new DashboardPage(driver.get());
+            systemUserPage = new SystemUserPage(driver.get());
+        }
+   }
+
+
+    @AfterSuite
+    public void tearDownDriver(ITestContext context) {
+
+        if (context.getName().equalsIgnoreCase("UI Regression")) {
+            this.driver.get().close();
+            if (null != this.driver) {
+                this.driver.get().quit();
+            }
+        }
+    }
+
+    private void getRemoteDriver(ITestContext context) throws MalformedURLException {
         MutableCapabilities dc = new ChromeOptions();
 
         dc.merge(configureChromeOptions());
@@ -70,24 +98,6 @@ public class BaseTest {
         context.setAttribute("WebDriver", driver.get());
 
         logger.info("Window Size: " + driver.get().manage().window().getSize().getHeight() + "x" + driver.get().manage().window().getSize().getWidth());
-   }
-
-
-    @BeforeClass
-    public void beforeClassSetup(){
-        loginPage = new LoginPanelPage(driver.get());
-        menuNavigation = new MenuNavigationPage(driver.get());
-        dashboardPage = new DashboardPage(driver.get());
-        systemUserPage = new SystemUserPage(driver.get());
-   }
-
-
-    @AfterSuite
-    public void tearDownDriver(ITestContext context) {
-        this.driver.get().close();
-        if (null != this.driver) {
-            this.driver.get().quit();
-        }
     }
 
     private ChromeOptions configureChromeOptions() {
