@@ -57,9 +57,7 @@ public class BaseTest {
     public void beforeClassSetup(ITestContext context) throws MalformedURLException {
         if (context.getName().equalsIgnoreCase("UI Regression")) {
             getRemoteDriver(context);
-        }
 
-        if (context.getName().equalsIgnoreCase("UI Regression")) {
             homePage = new HomePage(driver.get());
             loginPage = new LoginPanelPage(driver.get());
             menuNavigation = new MenuNavigationPage(driver.get());
