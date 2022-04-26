@@ -3,21 +3,20 @@ package com.framework.util;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
 @Slf4j
-public class AssertWebTable extends AbstractAssert<AssertWebElement, WebElement> {
+public class AssertWebTable extends AbstractAssert<AssertWebTable, List<WebElement>> {
 
 
-    protected AssertWebTable(WebElement element) {
-        super(element, AssertWebTable.class);
+    protected AssertWebTable(List<WebElement> elements) {
+        super(elements, AssertWebTable.class);
     }
 
-    public static AssertWebTable assertThat(WebElement element) {
-        return new AssertWebTable(element);
+    public static AssertWebTable assertThat(List<WebElement> elements) {
+        return new AssertWebTable(elements);
     }
 
 
@@ -25,7 +24,7 @@ public class AssertWebTable extends AbstractAssert<AssertWebElement, WebElement>
         isNotNull();
         if (!headerList.isEmpty()) {
 
-            Assertions.assertThat(actual.findElements(By.xpath("//tr//th")))
+            Assertions.assertThat(actual)
                     .isNotEmpty()
                     .extracting(WebElement::getText)
                     .containsAll(headerList);
@@ -41,7 +40,7 @@ public class AssertWebTable extends AbstractAssert<AssertWebElement, WebElement>
         isNotNull();
         if (!headerList.isEmpty()) {
 
-            Assertions.assertThat(actual.findElements(By.xpath("//tr//th")))
+            Assertions.assertThat(actual)
                     .isNotEmpty()
                     .extracting(WebElement::getText)
                     .asList()
@@ -58,7 +57,7 @@ public class AssertWebTable extends AbstractAssert<AssertWebElement, WebElement>
         isNotNull();
         if (!headerList.isEmpty()) {
 
-            Assertions.assertThat(actual.findElements(By.xpath("//tr//th")))
+            Assertions.assertThat(actual)
                     .isNotEmpty()
                     .extracting(WebElement::getText)
                     .asList()
