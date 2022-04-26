@@ -16,9 +16,11 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = PIE_CHART)
     private List<WebElement> pieChartLabels;
 
+
     public DashboardPage(WebDriver driver) {
         super(driver);
     }
+
 
     public List<String> getAllPieChartLabels() {
         return this.pieChartLabels.stream()

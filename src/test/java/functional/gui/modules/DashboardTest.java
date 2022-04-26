@@ -13,9 +13,8 @@ public class DashboardTest extends BaseTest {
     @BeforeClass
     public void setupTestData(){
 
-        loginPage.goToURL()
-                .enterUsernameAndPassword(USERNAME, PASSWORD)
-                .clickLoginButton();
+        loginPage.goToAppLoginPage()
+                .enterUsernameAndPassword(USERNAME, PASSWORD);
     }
 
 

@@ -1,10 +1,7 @@
 package functional;
 
 
-import com.framework.page.site.DashboardPage;
-import com.framework.page.site.LoginPanelPage;
-import com.framework.page.site.MenuNavigationPage;
-import com.framework.page.site.SystemUserPage;
+import com.framework.page.site.*;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
@@ -37,6 +34,7 @@ public class BaseTest {
     protected static final String USERNAME = System.getenv("HRM_USERNAME");
     protected static final String PASSWORD = System.getenv("HRM_PASSWORD");
 
+    protected HomePage homePage;
     protected LoginPanelPage loginPage;
     protected MenuNavigationPage menuNavigation;
     protected DashboardPage dashboardPage;
@@ -51,16 +49,18 @@ public class BaseTest {
     @BeforeTest
     public void beforeClassTestSetup(ITestContext context) throws MalformedURLException {
 
-        if (context.getName().equalsIgnoreCase("UI Regression")) {
-            getRemoteDriver(context);
-        }
+
     }
 
 
     @BeforeClass
-    public void beforeClassSetup(ITestContext context){
+    public void beforeClassSetup(ITestContext context) throws MalformedURLException {
+        if (context.getName().equalsIgnoreCase("UI Regression")) {
+            getRemoteDriver(context);
+        }
 
         if (context.getName().equalsIgnoreCase("UI Regression")) {
+            homePage = new HomePage(driver.get());
             loginPage = new LoginPanelPage(driver.get());
             menuNavigation = new MenuNavigationPage(driver.get());
             dashboardPage = new DashboardPage(driver.get());
@@ -89,7 +89,6 @@ public class BaseTest {
         host = System.getenv("HUB_HOST") != null ? System.getenv("HUB_HOST") : "hub";
 
         driver.set(new RemoteWebDriver(new URL("http://" + host + ":4444/wd/hub"), dc));
-
         logger.info("Remote Chrome Driver Started...");
 
         driver.get().manage().deleteAllCookies();

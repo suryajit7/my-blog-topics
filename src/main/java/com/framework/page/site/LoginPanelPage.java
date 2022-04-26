@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import static com.framework.data.Constants.APP_URL;
+import static com.framework.page.site.HomePage.ORANGE_HRM_LOGO;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 @Getter
@@ -31,8 +32,13 @@ public class LoginPanelPage extends BasePage {
     }
 
 
-    public LoginPanelPage goToURL() {
-        goTo(APP_URL);
+    public LoginPanelPage goToAppLoginPage() {
+        if (isUserLoggedIn()) {
+            new HomePage(driver).clickOrangeHRMLogo();
+            logger.info("Skipping navigating to Login screen.");
+        } else {
+            goTo(APP_URL);
+        }
         return this;
     }
 
@@ -53,9 +59,16 @@ public class LoginPanelPage extends BasePage {
 
 
     public LoginPanelPage enterUsernameAndPassword(String username, String password) {
-        enterUsername(username);
-        enterPassword(password);
-        return this;
+        if (!isUserLoggedIn()){
+            enterUsername(username);
+            enterPassword(password);
+            clickLoginButton();
+        } return this;
+    }
+
+    public Boolean isUserLoggedIn(){
+        waitForPageToLoad();
+        return isElementLoaded(By.xpath(ORANGE_HRM_LOGO));
     }
 
 
