@@ -1,1 +1,0 @@
-java -cp dockerized.jar:dockerized-tests.jar:libs/* org.testng.TestNG testng.xml
