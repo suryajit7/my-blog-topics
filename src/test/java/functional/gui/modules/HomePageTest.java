@@ -10,7 +10,7 @@ public class HomePageTest extends BaseTest {
     public void setupTestData(){
 
         loginPage.goToAppLoginPage()
-                .enterUsernameAndPassword(USERNAME, PASSWORD);
+                .enterUsernameAndPassword(HRM_USERNAME, HRM_PASSWORD);
     }
 
     @Test(priority = 0)
