@@ -2,6 +2,7 @@ package com.framework.data;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.framework.data.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +21,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @JsonInclude(NON_NULL)
 public class BaseEntity {
 
-    List<Error> errors;
+    List<User> users;
 
 
 }
