@@ -14,6 +14,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.apache.commons.io.FileUtils.getFile;
 import static org.apache.commons.io.FileUtils.readFileToString;
 import static org.hamcrest.Matchers.lessThan;
+import static org.skyscreamer.jsonassert.JSONCompareMode.LENIENT;
 import static org.skyscreamer.jsonassert.JSONCompareMode.NON_EXTENSIBLE;
 
 public class AssertWebService extends AbstractAssert<AssertWebService, Response> {
@@ -57,7 +58,7 @@ public class AssertWebService extends AbstractAssert<AssertWebService, Response>
 
         String expectedJsonString = readFileToString(getFile(getFilePathForFile(jsonFilename).toFile()), "UTF-8");
 
-        JSONAssert.assertEquals(expectedJsonString, actual.then().extract().asPrettyString(), NON_EXTENSIBLE);
+        JSONAssert.assertEquals(expectedJsonString, actual.then().extract().asPrettyString(), LENIENT);
         return this;
     }
 

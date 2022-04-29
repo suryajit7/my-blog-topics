@@ -24,9 +24,12 @@ public class ReqResAPITest extends BaseTest {
                 .hasValidStatusCode(SC_CREATED)
                 .hasValidJsonSchema("create_user_response_schema.json")
                 .hasResponseTimeWithin(2L)
-                .hasValidJsonData(("create_user_response_").concat(user.getName()).concat(".json"), User.class);
+                .hasValidJsonData(("create_user_response_").concat(user.getName()).concat(".json"));
 
         //Note: validation of Response Header happens creating ResponseSpecification itself -> (src/main/java/com/framework/core/SpecBuilder.java)
+
+        //deserialization
+        logger.info(response.as(User.class).toString());
 
     }
 
