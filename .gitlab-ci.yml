@@ -20,6 +20,8 @@ docker-test:
       else
         echo "All tests passed Successfully."
       fi
+  after_script:
+    - docker-compose down
 
   artifacts:
     reports:
