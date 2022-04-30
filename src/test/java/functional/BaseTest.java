@@ -72,7 +72,7 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
 
     @BeforeSuite
     public void beforeSuiteTestSetup(){
-        sleepUninterruptibly(5, SECONDS); //intentional, as chrome containers take few ms to register to hub
+        sleepUninterruptibly(10, SECONDS); //intentional, as chrome containers take few ms to register to hub
 
         settings = JsonSchemaValidatorSettings.settings()
                 .with().jsonSchemaFactory(jsonSchemaFactory)
