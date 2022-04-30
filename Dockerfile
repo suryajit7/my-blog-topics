@@ -30,6 +30,7 @@ COPY --from=package /app/target/libs                        ./libs
 COPY testng.xml                                             .
 COPY src/main/resources/allure.properties                   ./src/main/resources/allure.properties
 COPY src/main/resources/application.properties              ./src/main/resources/application.properties
+COPY src/test/resources/test-data                           ./src/test/resources/test-data/
 COPY run.sh                                                 .
 
 WORKDIR /jar/

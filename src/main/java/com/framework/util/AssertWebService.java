@@ -45,8 +45,8 @@ public class AssertWebService extends AbstractAssert<AssertWebService, Response>
     @SneakyThrows
     public <T> AssertWebService hasValidJsonData(String jsonFilename) {
         isNotNull();
-        String jsonString = FileUtils.readFileToString(FileUtils.getFile(getFilePathForFile(jsonFilename).toFile()), "UTF-8");
-        JSONAssert.assertEquals(actual.then().extract().asPrettyString(), jsonString, STRICT_ORDER);
+        String expectedJsonString = FileUtils.readFileToString(FileUtils.getFile(getFilePathForFile(jsonFilename).toFile()), "UTF-8");
+        JSONAssert.assertEquals(expectedJsonString, actual.then().extract().asPrettyString(), STRICT_ORDER);
         return this;
     }
 
@@ -54,8 +54,8 @@ public class AssertWebService extends AbstractAssert<AssertWebService, Response>
     @SneakyThrows
     public <T> AssertWebService hasValidJsonData(String jsonFilename, Class<T> type) {
         isNotNull();
-        String jsonString = FileUtils.readFileToString(FileUtils.getFile(getFilePathForFile(jsonFilename).toFile()), "UTF-8");
-        JSONAssert.assertEquals(actual.then().extract().asPrettyString(), jsonString, STRICT_ORDER);
+        String expectedJsonString = FileUtils.readFileToString(FileUtils.getFile(getFilePathForFile(jsonFilename).toFile()), "UTF-8");
+        JSONAssert.assertEquals(expectedJsonString, actual.then().extract().asPrettyString(), STRICT_ORDER);
         return this;
     }
 

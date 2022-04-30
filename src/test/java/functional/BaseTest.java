@@ -47,8 +47,8 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
     protected static final ThreadLocal<ITestNGMethod> currentMethods = new ThreadLocal<>();
     protected static final ThreadLocal<ITestResult> currentResults = new ThreadLocal<>();
 
-    protected static final String USERNAME = System.getenv("HRM_USERNAME");
-    protected static final String PASSWORD = System.getenv("HRM_PASSWORD");
+    protected static final String HRM_USERNAME = System.getenv("HRM_USERNAME");
+    protected static final String HRM_PASSWORD = System.getenv("HRM_PASSWORD");
 
     protected HomePage homePage;
     protected LoginPanelPage loginPage;
