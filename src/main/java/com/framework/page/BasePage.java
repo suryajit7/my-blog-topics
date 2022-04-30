@@ -83,7 +83,6 @@ public abstract class BasePage {
     wait.until(visibilityOf(element)).click();
     element.clear();
     element.sendKeys(text);
-    logger.info("Text entered: ".concat(text));
     return this;
   }
 

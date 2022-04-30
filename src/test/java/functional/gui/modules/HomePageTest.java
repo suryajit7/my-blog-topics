@@ -8,9 +8,6 @@ public class HomePageTest extends BaseTest {
 
     @BeforeClass
     public void setupTestData(){
-        System.out.println("*********************************************");
-        System.out.println(HRM_USERNAME);
-
         loginPage.goToAppLoginPage()
                 .enterUsernameAndPassword(HRM_USERNAME, HRM_PASSWORD);
     }

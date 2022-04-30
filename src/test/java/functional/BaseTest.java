@@ -86,12 +86,7 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
     public void beforeClassSetup(ITestContext context) throws MalformedURLException {
         if (context.getName().equalsIgnoreCase("UI Regression")) {
             getRemoteDriver(context);
-
-            homePage = new HomePage(driver.get());
-            loginPage = new LoginPanelPage(driver.get());
-            menuNavigation = new MenuNavigationPage(driver.get());
-            dashboardPage = new DashboardPage(driver.get());
-            systemUserPage = new SystemUserPage(driver.get());
+            initObjects();
         }
    }
 
@@ -159,6 +154,13 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
         return chromeOptions;
     }
 
+    private void initObjects() {
+        homePage = new HomePage(driver.get());
+        loginPage = new LoginPanelPage(driver.get());
+        menuNavigation = new MenuNavigationPage(driver.get());
+        dashboardPage = new DashboardPage(driver.get());
+        systemUserPage = new SystemUserPage(driver.get());
+    }
 
     @Override
     public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
