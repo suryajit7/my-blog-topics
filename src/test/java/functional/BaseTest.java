@@ -2,13 +2,14 @@ package functional;
 
 
 import com.framework.page.site.*;
+import com.framework.util.AsyncService;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.github.fge.jsonschema.main.JsonValidator;
 import com.saasquatch.jsonschemainferrer.*;
 import io.restassured.module.jsv.JsonSchemaValidatorSettings;
-import org.openqa.selenium.MutableCapabilities;
-import org.openqa.selenium.Proxy;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -21,19 +22,17 @@ import org.testng.annotations.Listeners;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.Duration;
 
 import static com.framework.data.Constants.BLANK;
 import static com.github.fge.jsonschema.SchemaVersion.DRAFTV4;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
+import static io.restassured.RestAssured.with;
+import static io.restassured.http.ContentType.JSON;
 import static io.restassured.module.jsv.JsonSchemaValidator.settings;
 import static java.lang.String.valueOf;
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.openqa.selenium.remote.CapabilityType.*;
+import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
+import static org.testng.Assert.assertTrue;
 
 @Listeners(BaseTest.class)
 public class BaseTest implements ITestListener, IInvokedMethodListener {
@@ -42,6 +41,8 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
 
     protected String host;
     protected JsonValidator validator;
+    protected RequestSpecification requestSpec;
+    protected AsyncService asyncService;
 
     protected static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     protected static final ThreadLocal<ITestNGMethod> currentMethods = new ThreadLocal<>();
@@ -72,7 +73,8 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
 
     @BeforeSuite
     public void beforeSuiteTestSetup(){
-        sleepUninterruptibly(10, SECONDS); //intentional, as chrome containers take few ms to register to hub
+
+
 
         settings = JsonSchemaValidatorSettings.settings()
                 .with().jsonSchemaFactory(jsonSchemaFactory)
@@ -84,6 +86,18 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
 
     @BeforeClass
     public void beforeClassSetup(ITestContext context) throws MalformedURLException {
+
+        Response response = with().baseUri("http://localhost:4444")
+                .contentType(JSON).log().all()
+                .get("/wd/hub/status")
+                .then().log().body().extract().response();
+
+        await().ignoreExceptions()
+                .atMost(Duration.ofSeconds(30))
+                .until(() -> response.path("value.ready").toString().equalsIgnoreCase("true"));
+
+        assertTrue(response.path("value.ready"));
+
         if (context.getName().equalsIgnoreCase("UI Regression")) {
             getRemoteDriver(context);
             initObjects();
@@ -103,14 +117,13 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
     }
 
     private void getRemoteDriver(ITestContext context) throws MalformedURLException {
-        MutableCapabilities dc = new ChromeOptions();
 
-        dc.merge(getChromeOptions());
-        dc.setCapability("name", context.getCurrentXmlTest().getName());
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.setCapability("se:name", context.getName());
 
         host = System.getenv("HUB_HOST") != null ? System.getenv("HUB_HOST") : "hub";
 
-        driver.set(new RemoteWebDriver(new URL("http://" + host + ":4444/wd/hub"), dc));
+        driver.set(new RemoteWebDriver(new URL("http://" + host + ":4444/wd/hub"), chromeOptions));
         logger.info("Remote Chrome Driver Started...");
 
         driver.get().manage().deleteAllCookies();
@@ -121,35 +134,10 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
         logger.info("Window Size: " + driver.get().manage().window().getSize().getHeight() + "x" + driver.get().manage().window().getSize().getWidth());
     }
 
-    private ChromeOptions getChromeOptions() {
-
-        Proxy proxy = new Proxy();
-        proxy.setAutodetect(true);
+    private ChromeOptions getChromeOptions(ITestContext context) {
 
         ChromeOptions chromeOptions = new ChromeOptions();
-
-        chromeOptions.setCapability(ELEMENT_SCROLL_BEHAVIOR, true);
-        chromeOptions.setCapability(SUPPORTS_ALERTS, true);
-        chromeOptions.setCapability(SUPPORTS_JAVASCRIPT, true);
-        chromeOptions.setCapability(SUPPORTS_APPLICATION_CACHE, true);
-        chromeOptions.setCapability(ACCEPT_SSL_CERTS, true);
-        chromeOptions.setCapability(ELEMENT_SCROLL_BEHAVIOR, true);
-        chromeOptions.setCapability(PROXY, proxy);
-        chromeOptions.setCapability(BROWSER_NAME, "chrome");
-
-        chromeOptions.setCapability("chrome.switches", asList("--disable-extensions"));
-        chromeOptions.setExperimentalOption("excludeSwitches", singletonList("enable-automation"));
-        chromeOptions.addArguments("--no-sandbox");
-        chromeOptions.addArguments("--allow-insecure-localhost");
-        chromeOptions.addArguments("--no-default-browser-check");
-        chromeOptions.addArguments("--disable-dev-shm-usage");
-        chromeOptions.addArguments("--disable-gpu");
-
-        Map<String, Object> prefs = new HashMap<>();
-        prefs.put("credentials_enable_service", false);
-        prefs.put("profile.password_manager_enabled", false);
-        prefs.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
-        chromeOptions.setExperimentalOption("prefs", prefs);
+        chromeOptions.setCapability("se:name", context.getName());
 
         return chromeOptions;
     }
