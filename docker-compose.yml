@@ -32,6 +32,7 @@ services:
     environment:
       - HRM_USERNAME=${HRM_USERNAME}
       - HRM_PASSWORD=${HRM_PASSWORD}
+      - HUB_HOST=hub
       - MODULE=testng.xml
     volumes:
       - ./src/test/resources/results:/app

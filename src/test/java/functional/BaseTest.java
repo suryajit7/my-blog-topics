@@ -9,7 +9,6 @@ import com.github.fge.jsonschema.main.JsonValidator;
 import com.saasquatch.jsonschemainferrer.*;
 import io.restassured.module.jsv.JsonSchemaValidatorSettings;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -41,7 +40,6 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
 
     protected String host;
     protected JsonValidator validator;
-    protected RequestSpecification requestSpec;
     protected AsyncService asyncService;
 
     protected static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
@@ -74,8 +72,6 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
     @BeforeSuite
     public void beforeSuiteTestSetup(){
 
-
-
         settings = JsonSchemaValidatorSettings.settings()
                 .with().jsonSchemaFactory(jsonSchemaFactory)
                 .and().with().checkedValidation(true);
@@ -93,10 +89,10 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
                 .then().log().body().extract().response();
 
         await().ignoreExceptions()
-                .atMost(Duration.ofSeconds(30))
+                .atMost(Duration.ofSeconds(300))
                 .until(() -> response.path("value.ready").toString().equalsIgnoreCase("true"));
 
-        assertTrue(response.path("value.ready"));
+        assertTrue(response.path("value.ready").toString().equalsIgnoreCase("true"));
 
         if (context.getName().equalsIgnoreCase("UI Regression")) {
             getRemoteDriver(context);
@@ -121,7 +117,7 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setCapability("se:name", context.getName());
 
-        host = System.getenv("HUB_HOST") != null ? System.getenv("HUB_HOST") : "hub";
+        host = System.getenv("HUB_HOST") != null ? System.getenv("HUB_HOST") : "localhost";
 
         driver.set(new RemoteWebDriver(new URL("http://" + host + ":4444/wd/hub"), chromeOptions));
         logger.info("Remote Chrome Driver Started...");
