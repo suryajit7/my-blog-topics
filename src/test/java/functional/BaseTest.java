@@ -8,7 +8,6 @@ import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.github.fge.jsonschema.main.JsonValidator;
 import com.saasquatch.jsonschemainferrer.*;
 import io.restassured.module.jsv.JsonSchemaValidatorSettings;
-import io.restassured.response.Response;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -21,17 +20,16 @@ import org.testng.annotations.Listeners;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.Duration;
 
 import static com.framework.data.Constants.BLANK;
 import static com.github.fge.jsonschema.SchemaVersion.DRAFTV4;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.restassured.RestAssured.with;
+import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static io.restassured.module.jsv.JsonSchemaValidator.settings;
 import static java.lang.String.valueOf;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
-import static org.testng.Assert.assertTrue;
 
 @Listeners(BaseTest.class)
 public class BaseTest implements ITestListener, IInvokedMethodListener {
@@ -77,27 +75,29 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
                 .and().with().checkedValidation(true);
 
         validator = jsonSchemaFactory.getValidator();
+
+        asyncService.initialize();
     }
 
 
     @BeforeClass
     public void beforeClassSetup(ITestContext context) throws MalformedURLException {
 
-        Response response = with().baseUri("http://localhost:4444")
-                .contentType(JSON).log().all()
-                .get("/wd/hub/status")
-                .then().log().body().extract().response();
-
-        await().ignoreExceptions()
-                .atMost(Duration.ofSeconds(300))
-                .until(() -> response.path("value.ready").toString().equalsIgnoreCase("true"));
-
-        assertTrue(response.path("value.ready").toString().equalsIgnoreCase("true"));
-
         if (context.getName().equalsIgnoreCase("UI Regression")) {
+
+            await().atLeast(1, SECONDS)
+                    .and().atMost(60, SECONDS)
+                    .until(() -> getGridAvailability().equalsIgnoreCase("true"));
+
             getRemoteDriver(context);
             initObjects();
         }
+   }
+
+   private String getGridAvailability(){
+       return given().contentType(JSON)
+               .when().get("http://localhost:4444/wd/hub/status")
+               .then().extract().response().path("value.ready");
    }
 
 
