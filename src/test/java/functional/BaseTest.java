@@ -28,6 +28,7 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static io.restassured.module.jsv.JsonSchemaValidator.settings;
 import static java.lang.String.valueOf;
+import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 
@@ -85,11 +86,11 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
 
             await().ignoreExceptions()
                     .atLeast(1, SECONDS)
-                    .and().atMost(60, SECONDS)
+                    .and().atMost(20, MINUTES)
                     .until(() -> getGridAvailability());
 
             getRemoteDriver(context);
-            initObjects();
+            initPageObjects();
         }
    }
 
@@ -137,7 +138,7 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
         return chromeOptions;
     }
 
-    private void initObjects() {
+    private void initPageObjects() {
         homePage = new HomePage(driver.get());
         loginPage = new LoginPanelPage(driver.get());
         menuNavigation = new MenuNavigationPage(driver.get());
