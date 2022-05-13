@@ -75,8 +75,6 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
                 .and().with().checkedValidation(true);
 
         validator = jsonSchemaFactory.getValidator();
-
-        asyncService.initialize();
     }
 
 
@@ -85,16 +83,17 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
 
         if (context.getName().equalsIgnoreCase("UI Regression")) {
 
-            await().atLeast(1, SECONDS)
+            await().ignoreExceptions()
+                    .atLeast(1, SECONDS)
                     .and().atMost(60, SECONDS)
-                    .until(() -> getGridAvailability().equalsIgnoreCase("true"));
+                    .until(() -> getGridAvailability());
 
             getRemoteDriver(context);
             initObjects();
         }
    }
 
-   private String getGridAvailability(){
+   private Boolean getGridAvailability(){
        return given().contentType(JSON)
                .when().get("http://localhost:4444/wd/hub/status")
                .then().extract().response().path("value.ready");
