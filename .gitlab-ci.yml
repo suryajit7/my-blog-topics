@@ -8,6 +8,7 @@ docker-test:
 
   variables:
     TESTNG_FAILED_XML: jar/test-output/testng-failed.xml
+
   script:
     - docker-compose up -d --build --scale chrome=2
     - docker wait test-run

@@ -28,7 +28,6 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static io.restassured.module.jsv.JsonSchemaValidator.settings;
 import static java.lang.String.valueOf;
-import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 
@@ -83,21 +82,9 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
     public void beforeClassSetup(ITestContext context) throws MalformedURLException {
 
         if (context.getName().equalsIgnoreCase("UI Regression")) {
-
-            await().ignoreExceptions()
-                    .atLeast(1, SECONDS)
-                    .and().atMost(20, MINUTES)
-                    .until(() -> getGridAvailability());
-
             getRemoteDriver(context);
             initPageObjects();
         }
-   }
-
-   private Boolean getGridAvailability(){
-       return given().contentType(JSON)
-               .when().get("http://localhost:4444/wd/hub/status")
-               .then().extract().response().path("value.ready");
    }
 
 
@@ -119,7 +106,11 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
 
         host = System.getenv("HUB_HOST") != null ? System.getenv("HUB_HOST") : "localhost";
 
-        driver.set(new RemoteWebDriver(new URL("http://" + host + ":4444/wd/hub"), chromeOptions));
+        await().ignoreExceptions()
+                .atMost(30, SECONDS)
+                .until(() -> getGridAvailability(host));
+
+        driver.set(new RemoteWebDriver(new URL(("http://").concat(host).concat(":4444/wd/hub")), chromeOptions));
         logger.info("Remote Chrome Driver Started...");
 
         driver.get().manage().deleteAllCookies();
@@ -130,12 +121,12 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
         logger.info("Window Size: " + driver.get().manage().window().getSize().getHeight() + "x" + driver.get().manage().window().getSize().getWidth());
     }
 
-    private ChromeOptions getChromeOptions(ITestContext context) {
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.setCapability("se:name", context.getName());
-
-        return chromeOptions;
+    private Boolean getGridAvailability(String host){
+        return given().contentType(JSON)
+                .when().get("http://" + host + ":4444/wd/hub/status")
+                .then().extract().response().path("value.message")
+                .toString().equalsIgnoreCase("Selenium Grid ready.");
     }
 
     private void initPageObjects() {
