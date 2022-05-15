@@ -1,6 +1,6 @@
-FROM maven:3.6.1-jdk-8-alpine AS package
+FROM maven:3.6.0-jdk-11-slim AS package
 
-RUN apk add --update \
+RUN apt-get update && apt-get install -y \
     curl \
     jq
 
@@ -19,13 +19,13 @@ WORKDIR /app/
 ENTRYPOINT ["/bin/sh"]
 CMD ["healthcheck.sh"]
 
-FROM openjdk:8-jre-alpine AS testrun
+FROM fabric8/java-alpine-openjdk11-jre AS testrun
 
 RUN mkdir -p /jar
 WORKDIR /jar/
 
-COPY --from=package /app/target/dockerized.jar         .
-COPY --from=package /app/target/dockerized-tests.jar   .
+COPY --from=package /app/target/dockerized.jar              .
+COPY --from=package /app/target/dockerized-tests.jar        .
 COPY --from=package /app/target/libs                        ./libs
 COPY testng.xml                                             .
 COPY src/main/resources/allure.properties                   ./src/main/resources/allure.properties

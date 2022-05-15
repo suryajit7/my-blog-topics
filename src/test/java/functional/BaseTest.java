@@ -24,6 +24,7 @@ import java.net.URL;
 import static com.framework.data.Constants.BLANK;
 import static com.github.fge.jsonschema.SchemaVersion.DRAFTV4;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.saasquatch.jsonschemainferrer.SpecVersion.DRAFT_04;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static io.restassured.module.jsv.JsonSchemaValidator.settings;
@@ -36,7 +37,6 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
 
     protected static final org.slf4j.Logger logger = LoggerFactory.getLogger(BaseTest.class);
 
-    protected String host;
     protected JsonValidator validator;
     protected AsyncService asyncService;
 
@@ -44,6 +44,7 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
     protected static final ThreadLocal<ITestNGMethod> currentMethods = new ThreadLocal<>();
     protected static final ThreadLocal<ITestResult> currentResults = new ThreadLocal<>();
 
+    protected static final String HUB_HOST = System.getenv("HUB_HOST");
     protected static final String HRM_USERNAME = System.getenv("HRM_USERNAME");
     protected static final String HRM_PASSWORD = System.getenv("HRM_PASSWORD");
 
@@ -54,7 +55,7 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
     protected SystemUserPage systemUserPage;
 
     protected static final JsonSchemaInferrer jsonSchemaInferrer = JsonSchemaInferrer.newBuilder()
-            .setSpecVersion(SpecVersion.DRAFT_04)
+            .setSpecVersion(DRAFT_04)
             .addFormatInferrers(FormatInferrers.email(), FormatInferrers.ip())
             .setAdditionalPropertiesPolicy(AdditionalPropertiesPolicies.notAllowed())
             .setRequiredPolicy(RequiredPolicies.nonNullCommonFields())
@@ -66,6 +67,7 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
 
     protected final JsonSchemaFactory jsonSchemaFactory = JsonSchemaFactory.newBuilder()
             .setValidationConfiguration(validationConfig).freeze();
+
 
     @BeforeSuite
     public void beforeSuiteTestSetup(){
@@ -99,18 +101,17 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
         }
     }
 
+
     private void getRemoteDriver(ITestContext context) throws MalformedURLException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setCapability("se:name", context.getName());
 
-        host = System.getenv("HUB_HOST") != null ? System.getenv("HUB_HOST") : "localhost";
-
         await().ignoreExceptions()
                 .atMost(30, SECONDS)
-                .until(() -> getGridAvailability(host));
+                .until(() -> getGridAvailability(HUB_HOST));
 
-        driver.set(new RemoteWebDriver(new URL(("http://").concat(host).concat(":4444/wd/hub")), chromeOptions));
+        driver.set(new RemoteWebDriver(new URL(("http://").concat(HUB_HOST).concat(":4444/wd/hub")), chromeOptions));
         logger.info("Remote Chrome Driver Started...");
 
         driver.get().manage().deleteAllCookies();
@@ -124,10 +125,11 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
 
     private Boolean getGridAvailability(String host){
         return given().contentType(JSON)
-                .when().get("http://" + host + ":4444/wd/hub/status")
+                .when().get(("http://").concat(host).concat(":4444/wd/hub/status"))
                 .then().extract().response().path("value.message")
                 .toString().equalsIgnoreCase("Selenium Grid ready.");
     }
+
 
     private void initPageObjects() {
         homePage = new HomePage(driver.get());
@@ -136,6 +138,7 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
         dashboardPage = new DashboardPage(driver.get());
         systemUserPage = new SystemUserPage(driver.get());
     }
+
 
     @Override
     public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {

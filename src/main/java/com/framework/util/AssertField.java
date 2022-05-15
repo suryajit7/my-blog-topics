@@ -8,8 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.validator.GenericValidator;
 import org.assertj.core.api.AbstractAssert;
 
+import javax.money.Monetary;
+import javax.money.UnknownCurrencyException;
 import java.util.regex.Pattern;
 
+import static com.framework.data.Constants.NAME_REGEX;
 import static com.framework.data.Constants.RFC5322_EMAIL_REGEX;
 import static java.util.Arrays.stream;
 import static java.util.Locale.getISOCountries;
@@ -26,6 +29,17 @@ public class AssertField extends AbstractAssert<AssertField, String> {
 
     public static AssertField assertThat(String string) {
         return new AssertField(string);
+    }
+
+    public AssertField isValidName() {
+        isNotNull();
+        Boolean isValidName = Pattern.compile(NAME_REGEX).matcher(actual).matches();
+        if (isValidName) {
+            log.info("Given Name is valid.");
+        } else {
+            log.error("Given Name is NOT valid: ".concat(actual));
+            failWithMessage("Given Name is NOT valid: ".concat(actual));
+        } return this;
     }
 
     public AssertField isPhoneNumber() {
@@ -100,7 +114,7 @@ public class AssertField extends AbstractAssert<AssertField, String> {
         } return this;
     }
 
-/*    public AssertField isCurrencyCode() {
+    public AssertField isCurrencyCode() {
         isNotNull();
         try {
             Monetary.getCurrency(actual);
@@ -109,7 +123,7 @@ public class AssertField extends AbstractAssert<AssertField, String> {
             log.error("Given CurrencyCode is NOT valid: ".concat(actual));
             failWithMessage("Given CurrencyCode is NOT valid: ".concat(actual));
         } return this;
-    }*/
+    }
 
     public AssertField isCountryCodeISO() {
         isNotNull();
