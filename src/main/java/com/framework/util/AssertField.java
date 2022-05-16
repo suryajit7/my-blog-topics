@@ -3,7 +3,6 @@ package com.framework.util;
 
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import com.google.i18n.phonenumbers.Phonenumber;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.validator.GenericValidator;
 import org.assertj.core.api.AbstractAssert;
@@ -14,6 +13,7 @@ import java.util.regex.Pattern;
 
 import static com.framework.data.Constants.NAME_REGEX;
 import static com.framework.data.Constants.RFC5322_EMAIL_REGEX;
+import static com.google.i18n.phonenumbers.Phonenumber.PhoneNumber.CountryCodeSource;
 import static java.util.Arrays.stream;
 import static java.util.Locale.getISOCountries;
 
@@ -47,7 +47,7 @@ public class AssertField extends AbstractAssert<AssertField, String> {
         try {
             Boolean isValidPhoneNumber = PhoneNumberUtil.getInstance()
                     .isValidNumber(PhoneNumberUtil.getInstance()
-                            .parse(actual, Phonenumber.PhoneNumber.CountryCodeSource.UNSPECIFIED.name()));
+                            .parse(actual, CountryCodeSource.UNSPECIFIED.name()));
             if (isValidPhoneNumber) {
                 log.info("Given string is a valid phone number in Earth.");
             }

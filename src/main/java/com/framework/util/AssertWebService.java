@@ -26,9 +26,9 @@ public class AssertWebService extends AbstractAssert<AssertWebService, Response>
     }
 
 
-    public AssertWebService hasValidStatusCode(int expectedHttpSatus) {
+    public AssertWebService hasValidStatusCode(int expectedHttpStatus) {
         isNotNull();
-        actual.then().assertThat().statusCode(expectedHttpSatus);
+        actual.then().assertThat().statusCode(expectedHttpStatus);
         return this;
     }
 
