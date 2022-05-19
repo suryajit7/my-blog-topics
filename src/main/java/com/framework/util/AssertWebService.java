@@ -43,14 +43,14 @@ public class AssertWebService extends AbstractAssert<AssertWebService, Response>
 
 
     @SneakyThrows
-    public <T> AssertWebService hasValidJsonData(String jsonFilename) {
+    public AssertWebService hasValidJsonData(String jsonFilename) {
         isNotNull();
         String expectedJsonString = FileUtils.readFileToString(FileUtils.getFile(getFilePathForFile(jsonFilename).toFile()), "UTF-8");
         JSONAssert.assertEquals(expectedJsonString, actual.then().extract().asPrettyString(), STRICT_ORDER);
         return this;
     }
 
-
+    //TODO: Use <T> class type to deserialization the response and then perform assertion
     @SneakyThrows
     public <T> AssertWebService hasValidJsonData(String jsonFilename, Class<T> type) {
         isNotNull();

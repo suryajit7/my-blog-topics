@@ -147,7 +147,7 @@
     <orderEntry type="library" scope="RUNTIME" name="Maven: io.qameta.allure:allure-test-filter:2.17.3" level="project" />
     <orderEntry type="library" name="Maven: org.assertj:assertj-core:3.22.0" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.9.9.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-all:1.3" level="project" />
+    <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-all:1.3" level="project" />
     <orderEntry type="library" name="Maven: io.rest-assured:rest-assured:4.5.1" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.groovy:groovy:3.0.9" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.groovy:groovy-xml:3.0.9" level="project" />
