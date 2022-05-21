@@ -22,3 +22,8 @@ Go to root directory and open any CLI and run the below command.
 5. Test Reporter
 6. Selenium Grid on Kubes
 7. AWS authentication (Bonus - use aws variables)
+
+## **Credits:**
+
+1. SpecBuilder class: Omprakash Chavan **_https://www.udemy.com/course/rest-assured-api-automation/_** 
+2. Use of Awaitility: Baeldung **_https://www.baeldung.com/awaitility-testing_**
