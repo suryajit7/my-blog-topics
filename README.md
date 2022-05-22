@@ -27,3 +27,4 @@ Go to root directory and open any CLI and run the below command.
 
 1. SpecBuilder class: Omprakash Chavan **_https://www.udemy.com/course/rest-assured-api-automation/_** 
 2. Use of Awaitility: Baeldung **_https://www.baeldung.com/awaitility-testing_**
+3. Use of AssertJ: Vinoth Selvaraj **_https://www.udemy.com/course/assertj-fluent-assertion-in-test-automation/_**

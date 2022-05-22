@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 
 import static com.framework.page.site.MenuOption.USERS;
 import static com.framework.page.site.UserRole.ESS;
+import static com.framework.util.AssertWebElement.assertThat;
 
 public class DashboardTest extends BaseTest {
 
@@ -30,6 +31,8 @@ public class DashboardTest extends BaseTest {
                 .searchSystemUserByUserRole(ESS)
                 .searchSystemUserByEmployeeName("Maggie Manning")
                 .clickSearchButton();
+
+        assertThat(systemUserPage.getSearchButton()).isDisplayed();
 
     }
 

@@ -21,7 +21,7 @@ import org.testng.annotations.Listeners;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static com.framework.data.Constants.BLANK;
+import static com.framework.util.Await.getInitializedAwait;
 import static com.github.fge.jsonschema.SchemaVersion.DRAFTV4;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.saasquatch.jsonschemainferrer.SpecVersion.DRAFT_04;
@@ -29,8 +29,6 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static io.restassured.module.jsv.JsonSchemaValidator.settings;
 import static java.lang.String.valueOf;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 
 @Listeners(BaseTest.class)
 public class BaseTest implements ITestListener, IInvokedMethodListener {
@@ -107,9 +105,7 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setCapability("se:name", context.getName());
 
-        await().ignoreExceptions()
-                .atMost(30, SECONDS)
-                .until(() -> getGridAvailability(HUB_HOST));
+        getInitializedAwait().until(() -> getGridAvailability(HUB_HOST));
 
         driver.set(new RemoteWebDriver(new URL(("http://").concat(HUB_HOST).concat(":4444/wd/hub")), chromeOptions));
         logger.info("Remote Chrome Driver Started...");
@@ -162,12 +158,6 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
     public static ITestNGMethod getTestMethod() {
         return checkNotNull(currentMethods.get(),
                 "Did you forget to register the %s listener?", BaseTest.class.getName());
-    }
-
-    public static String getTestMethodName(String parameterValue) {
-        return getTestMethod().getMethodName()
-                .concat(parameterValue.equalsIgnoreCase(BLANK) ? BLANK : ("_").concat(parameterValue))
-                .concat(".json");
     }
 
 

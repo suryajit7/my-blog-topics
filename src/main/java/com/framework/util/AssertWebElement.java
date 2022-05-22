@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.AbstractAssert;
 import org.openqa.selenium.WebElement;
 
+import static com.framework.util.Await.*;
+
 
 /**
  * Custom assertions suitable for WebElements.
@@ -21,6 +23,9 @@ public class AssertWebElement extends AbstractAssert<AssertWebElement, WebElemen
 
     public AssertWebElement isDisplayed() {
         isNotNull();
+
+        awaitUntil(elementIsDisplayed, actual);
+
         if (actual.isDisplayed()) {
             log.info("Expected element is Displayed");
         } else {
@@ -31,6 +36,9 @@ public class AssertWebElement extends AbstractAssert<AssertWebElement, WebElemen
 
     public AssertWebElement isEnabled() {
         isNotNull();
+
+        awaitUntil(elementIsEnabled, actual);
+
         if (actual.isEnabled()) {
             log.info("Expected element is enabled.");
         } else {
