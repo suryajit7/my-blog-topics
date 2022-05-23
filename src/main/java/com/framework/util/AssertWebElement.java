@@ -71,6 +71,9 @@ public class AssertWebElement extends AbstractAssert<AssertWebElement, WebElemen
 
     public AssertWebElement isLink() {
         isNotNull();
+
+        awaitUntil(visibilityOf, actual);
+
         if(!actual.getTagName().equalsIgnoreCase("a")){
             failWithMessage("Expected element is Not a Link.");
             log.error("Expected element is Not a Link.");

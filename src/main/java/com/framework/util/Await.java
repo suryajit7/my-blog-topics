@@ -2,8 +2,10 @@ package com.framework.util;
 
 import com.framework.core.AwaitInterface;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testcontainers.shaded.org.awaitility.core.ConditionFactory;
 
+import static java.time.Duration.ofMillis;
 import static java.time.Duration.ofSeconds;
 import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 
@@ -21,6 +23,12 @@ public class Await {
     public static AwaitInterface elementIsButton = (element) -> getInitializedAwait()
             .until(() -> element.getTagName().equalsIgnoreCase("button") || element.getAttribute("type").equalsIgnoreCase("button"));
 
+    public static AwaitInterface alertIsPresent = (element -> getInitializedAwait()
+            .until(() -> ExpectedConditions.alertIsPresent().equals(true)));
+
+    public static AwaitInterface visibilityOf = (element -> getInitializedAwait()
+            .until(() -> ExpectedConditions.visibilityOf(element).equals(true)));
+
     public static void awaitUntil(AwaitInterface method, WebElement element) {
         method.syncUsingAwait(element);
     }
@@ -28,8 +36,8 @@ public class Await {
     public static ConditionFactory getInitializedAwait() {
         return await()
                 .ignoreExceptions()
-                .pollDelay(ofSeconds(1))
-                .atLeast(ofSeconds(1))
+                .pollDelay(ofMillis(10))
+                .atLeast(ofMillis(10))
                 .atMost(ofSeconds(30));
     }
 
