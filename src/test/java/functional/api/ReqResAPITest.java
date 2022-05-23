@@ -15,7 +15,7 @@ public class ReqResAPITest extends BaseTest {
     ReqResService reqResService = new ReqResService();
 
 
-    @Test(priority = 0, dataProvider = "users-info", dataProviderClass = UserData.class)
+    @Test(priority = 0, dataProvider = "getUserInfoToCreateUsers", dataProviderClass = UserData.class)
     public void validateCreateUserFlow(User user){
 
         Response response = reqResService.createUser(user);
@@ -26,12 +26,8 @@ public class ReqResAPITest extends BaseTest {
                 .hasResponseTimeWithin(3L)
                 .hasValidJsonData(("create_user_response_").concat(user.getName()).concat(".json"));
 
-        //Note: validation of Response Header happens while creating ResponseSpecification itself
-        // -> (src/main/java/com/framework/core/SpecBuilder.java)
-
         //deserialization
         logger.info(response.as(User.class).toString());
-
     }
 
 }

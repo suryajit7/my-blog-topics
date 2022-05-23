@@ -33,7 +33,6 @@ public class DashboardTest extends BaseTest {
                 .clickSearchButton();
 
         assertThat(systemUserPage.getSearchButton()).isDisplayed();
-
     }
 
 
