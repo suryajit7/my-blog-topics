@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -28,6 +29,7 @@ public class User {
 
     //TODO: This is typically a date, create a custom Date Parser
     private String createdAt;
+
 
 }
 

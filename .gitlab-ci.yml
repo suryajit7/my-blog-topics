@@ -3,6 +3,7 @@ docker-test:
   # Use the official docker image.
   image: docker/compose:latest
   stage: test
+  allow_failure: true
   services:
     - docker:dind
 

@@ -20,6 +20,7 @@ import org.testng.annotations.Listeners;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.LocalDateTime;
 
 import static com.framework.util.Await.getInitializedAwait;
 import static com.github.fge.jsonschema.SchemaVersion.DRAFTV4;
@@ -41,6 +42,7 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
     protected static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     protected static final ThreadLocal<ITestNGMethod> currentMethods = new ThreadLocal<>();
     protected static final ThreadLocal<ITestResult> currentResults = new ThreadLocal<>();
+    protected static final LocalDateTime currentTime = LocalDateTime.now();
 
     protected static final String HUB_HOST = System.getenv("HUB_HOST");
     protected static final String HRM_USERNAME = System.getenv("HRM_USERNAME");

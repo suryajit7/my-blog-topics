@@ -7,8 +7,6 @@ import org.testng.annotations.Test;
 import static com.framework.page.site.MenuOption.USERS;
 import static com.framework.page.site.UserRole.ESS;
 import static com.framework.util.AssertWebElement.assertThat;
-import static com.framework.util.Await.awaitUntil;
-import static com.framework.util.Await.visibilityOf;
 
 public class DashboardTest extends BaseTest {
 
@@ -28,13 +26,13 @@ public class DashboardTest extends BaseTest {
 
         menuNavigation.navigateToMenu(USERS);
 
-        systemUserPage.isPageLoaded()
-                .searchSystemUserByUsername("Maggie.Manning")
+        systemUserPage.isPageLoaded();
+
+        systemUserPage.searchSystemUserByUsername("Maggie.Manning")
                 .searchSystemUserByUserRole(ESS)
                 .searchSystemUserByEmployeeName("Maggie Manning")
                 .clickSearchButton();
 
-        awaitUntil(visibilityOf, systemUserPage.getSearchButton());
         assertThat(systemUserPage.getSearchButton()).isDisplayed();
     }
 
