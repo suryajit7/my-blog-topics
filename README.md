@@ -22,14 +22,19 @@ Go to root directory and open any CLI and run the below command.
    **_https://suryajit7.medium.com/run-your-dockerized-tests-in-gitlab-ci-cd-pipeline-a6dce75b7be3_**
 
 3. Custom Assertion class
-4. Custom Wait class
-5. Test Reporter
-6. Selenium Grid on Kubes [WIP]
+4. Custom Await class
+5. Custom Annotations
+6. Test Reporter
+7. Selenium Grid on Kubes [WIP]
 
-7. AWS Cognito Authentication for API Testing with REST-assured
+8. AWS Cognito Authentication for API Testing with REST-assured
    **_https://suryajit7.medium.com/aws-cognito-authentication-for-api-testing-with-rest-assured-8c8edd57aba8_**
 
-8.
+9. Quality Insights Dashboard [WIP]
+
+10. Spring Batch Job Tests
+
+
 
 ## **Credits:**
 
