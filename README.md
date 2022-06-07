@@ -25,14 +25,14 @@ Go to root directory and open any CLI and run the below command.
 4. Custom Await class
 5. Custom Annotations
 6. Test Reporter
-7. Selenium Grid on Kubes [WIP]
+7. Selenium Grid on Kubes
 
 8. AWS Cognito Authentication for API Testing with REST-assured  
    **_https://suryajit7.medium.com/aws-cognito-authentication-for-api-testing-with-rest-assured-8c8edd57aba8_**
 
-9. Quality Insights Dashboard [WIP]
-
-10. Spring Batch Job Tests
+9. Quality Insights Dashboard.
+10. How to write Spring Batch Job Tests using Spring Batch Test Context and Awaility library.
+11. How to perform Mutation testing using Pitest library
 
 
 
