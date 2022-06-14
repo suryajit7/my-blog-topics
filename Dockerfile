@@ -9,6 +9,7 @@ WORKDIR /app
 
 COPY pom.xml                          .
 COPY healthcheck.sh                   .
+RUN mvn -e -B dependency:resolve
 
 COPY src                              ./src
 RUN mvn verify --fail-never -DskipTests
