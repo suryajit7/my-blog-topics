@@ -31,10 +31,14 @@ Go to root directory and open any CLI and run the below command.
    **_https://suryajit7.medium.com/aws-cognito-authentication-for-api-testing-with-rest-assured-8c8edd57aba8_**
 
 9. Quality Insights Dashboard.
+
 10. How to write Spring Batch Job Tests using Spring Batch Test Context and Awaitility library.
 11. How to perform Mutation testing using Pitest library
+
 12. Aspect Oriented Programming in Framework Design
 13. Use of Functional Programming concepts while designing Page Objects.
+14. Need of TestOps in modern agile team which develops enterprise level application
+15. Liquibase Migration with AWS Aurora RDS
 
 
 ## **Credits & Links:**
