@@ -39,7 +39,7 @@ Go to root directory and open any CLI and run the below command.
 13. Use of Functional Programming concepts while designing Page Objects.
 14. Need of TestOps in modern agile team which develops enterprise level application
 15. Liquibase Migration with AWS Aurora RDS
-
+16. Aspect Oriented Programming with AWS Lambda Functions
 
 ## **Credits & Links:**
 
