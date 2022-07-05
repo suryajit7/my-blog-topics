@@ -125,47 +125,15 @@ public abstract class BasePage {
   }
 
 
-  public WebElement reactivateWebElement(By by, WebElement element){
-    try {
-      wait.ignoreAll(exceptionList)
-              .until(refreshed(visibilityOf(element)));
-      logger.info(("Element is available.").concat("").concat(element.toString()));
-
-    } catch (WebDriverException exception) {
-      logger.warn(exception.getMessage());
-    } return this.driver.findElement(by);
-  }
-
-
-  public List<WebElement> reactivateWebElements(By by, List<WebElement> elements){
-    try {
-      wait.ignoreAll(exceptionList)
-              .until(refreshed(visibilityOfAllElements(elements)));
-      logger.info("Elements is available.");
-    } catch (WebDriverException exception) {
-      logger.warn(exception.getMessage());
-    } return this.driver.findElements(by);
-  }
-
-
   public Boolean isElementLoaded(By locator){
-    return !getWebElements(this.driver.findElements(locator), locator).isEmpty();
-  }
-
-  private List<WebElement> getWebElements(List<WebElement> webElementList, By locator) {
     waitForPageToLoad();
-       /* try {
-
-            await()
-                    .dontCatchUncaughtExceptions()
-                    .ignoreExceptions()
-                    .atMost(timeout, SECONDS)
-                    .pollInterval(pollingInterval, SECONDS)
-                    .until(() -> this.wait.until(visibilityOfAllElements(webElementList)));
-        } catch(StaleElementReferenceException exception) {
-
-        }*/
-    return this.driver.findElements(locator);
+    try {
+      wait.ignoreAll(exceptionList)
+              .withMessage("Elements is Not available.")
+              .until(refreshed(visibilityOfAllElements(this.driver.findElements(locator))));
+    } catch (WebDriverException exception) {
+      logger.info(exception.getMessage());
+    } return !this.driver.findElements(locator).isEmpty();
   }
 
   public BasePage moveToElementAndClick(WebElement webelement) {
