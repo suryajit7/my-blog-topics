@@ -9,6 +9,7 @@ import org.openqa.selenium.support.FindBy;
 
 import static com.framework.data.Constants.APP_URL;
 import static com.framework.page.site.HomePage.ORANGE_HRM_LOGO;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 @Getter
@@ -76,7 +77,7 @@ public class LoginPanelPage extends BasePage {
     @Override
     public LoginPanelPage isPageLoaded() {
         waitForPageToLoad();
-        waitForElementToAppear(loginButton);
+        wait.until(visibilityOf(loginButton));
         return this;
     }
 }

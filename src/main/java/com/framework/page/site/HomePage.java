@@ -6,6 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
+
 @Getter
 public class HomePage extends BasePage {
 
@@ -29,7 +31,7 @@ public class HomePage extends BasePage {
     @Override
     public HomePage isPageLoaded() {
         waitForPageToLoad();
-        waitForElementToAppear(orangeHRMLogo);
+        wait.until(visibilityOf(orangeHRMLogo));
         return this;
     }
 }

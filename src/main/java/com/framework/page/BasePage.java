@@ -60,7 +60,7 @@ public abstract class BasePage {
   public WebElement scrollToElement(WebElement element){
     JavascriptExecutor js = (JavascriptExecutor) this.driver;
     js.executeScript("arguments[0].scrollIntoView({block: \"center\",inline: \"center\",behavior: \"smooth\"});",element);
-    waitForElementToAppear(element);
+    wait.until(visibilityOf(element));
     logger.info(("Browser scrolled for element:").concat(element.getText()));
     return element;
   }
@@ -98,32 +98,6 @@ public abstract class BasePage {
             || ((Boolean) ((JavascriptExecutor) webDriver).executeScript("return jQuery.active == 0")));
     return this;
   }
-
-  public WebElement waitForElementToClickable(WebElement element) {
-    return wait.until(elementToBeClickable(element));
-  }
-
-  public WebElement waitForElementToClickable(By by) {
-    return wait.until(elementToBeClickable(by));
-  }
-
-  public WebElement waitForElementToAppear(WebElement element) {
-    return wait.until(visibilityOf(element));
-  }
-
-  public WebElement waitForElementToAppear(By by) {
-    return wait.until(visibilityOfElementLocated(by));
-  }
-
-
-  public List<WebElement> waitForElementsToAppear(List<WebElement> elements) {
-    return wait.until(visibilityOfAllElements(elements));
-  }
-
-  public List<WebElement> waitForElementsToAppear(By by) {
-    return wait.until(visibilityOfAllElementsLocatedBy(by));
-  }
-
 
   public Boolean isElementLoaded(By locator){
     waitForPageToLoad();

@@ -15,10 +15,10 @@ Go to root directory and open any CLI and run the below command.
 
 ## **Blogs List:**
 
-1. Dockerize Your Selenium Grid Setup  
+1. Dockerize Your Selenium Grid Setup ![](doc/check-mark.png)  
    **_https://suryajit7.medium.com/dockerize-your-selenium-grid-setup-23807b2bccc9_**
 
-2. Run Your Dockerized Tests in Gitlab CI-CD Pipeline  
+2. Run Your Dockerized Tests in Gitlab CI-CD Pipeline ![](doc/check-mark.png)    
    **_https://suryajit7.medium.com/run-your-dockerized-tests-in-gitlab-ci-cd-pipeline-a6dce75b7be3_**
 
 3. Custom Assertion class
@@ -27,7 +27,7 @@ Go to root directory and open any CLI and run the below command.
 6. Test Reporter
 7. Selenium Grid on Kubes
 
-8. AWS Cognito Authentication for API Testing with REST-assured  
+8. AWS Cognito Authentication for API Testing with REST-assured ![](doc/check-mark.png)    
    **_https://suryajit7.medium.com/aws-cognito-authentication-for-api-testing-with-rest-assured-8c8edd57aba8_**
 
 9. Quality Insights Dashboard.
@@ -40,6 +40,7 @@ Go to root directory and open any CLI and run the below command.
 14. Need of TestOps in modern agile team which develops enterprise level application
 15. Liquibase Migration with AWS Aurora RDS
 16. Aspect Oriented Programming with AWS Lambda Functions
+17. Reactive Programming In Test Automation
 
 ## **Credits & Links:**
 

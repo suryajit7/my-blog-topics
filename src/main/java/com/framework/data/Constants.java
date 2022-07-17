@@ -9,6 +9,7 @@ public class Constants {
     public static final String API_URL = "https://reqres.in/";
 
     public static final String BLANK = "";
+    public static final String LOCALHOST = "localhost";
 
     //API Related Constants
     public static final String CONTENT_TYPE_JSON_CHARSET_UTF8 = "application/json;charset=utf-8";

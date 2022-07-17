@@ -22,6 +22,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDateTime;
 
+import static com.framework.data.Constants.LOCALHOST;
 import static com.framework.util.Await.getInitializedAwait;
 import static com.github.fge.jsonschema.SchemaVersion.DRAFTV4;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -30,12 +31,14 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static io.restassured.module.jsv.JsonSchemaValidator.settings;
 import static java.lang.String.valueOf;
+import static java.lang.System.getenv;
 
 @Listeners(BaseTest.class)
 public class BaseTest implements ITestListener, IInvokedMethodListener {
 
     protected static final org.slf4j.Logger logger = LoggerFactory.getLogger(BaseTest.class);
 
+    protected String host;
     protected JsonValidator validator;
     protected AsyncService asyncService;
 
@@ -44,7 +47,6 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
     protected static final ThreadLocal<ITestResult> currentResults = new ThreadLocal<>();
     protected static final LocalDateTime currentTime = LocalDateTime.now();
 
-    protected static final String HUB_HOST = System.getenv("HUB_HOST");
     protected static final String HRM_USERNAME = System.getenv("HRM_USERNAME");
     protected static final String HRM_PASSWORD = System.getenv("HRM_PASSWORD");
 
@@ -107,9 +109,11 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setCapability("se:name", context.getName());
 
-        getInitializedAwait().until(() -> getGridAvailability(HUB_HOST));
+        host = getenv("HUB_HOST") != null ? getenv("HUB_HOST") : LOCALHOST;
 
-        driver.set(new RemoteWebDriver(new URL(("http://").concat(HUB_HOST).concat(":4444/wd/hub")), chromeOptions));
+        getInitializedAwait().until(() -> getGridAvailability(host));
+
+        driver.set(new RemoteWebDriver(new URL(("http://").concat(host).concat(":4444/wd/hub")), chromeOptions));
         logger.info("Remote Chrome Driver Started...");
 
         driver.get().manage().deleteAllCookies();

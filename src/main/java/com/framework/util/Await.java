@@ -1,12 +1,12 @@
 package com.framework.util;
 
 import com.framework.core.AwaitInterface;
+import org.awaitility.core.ConditionFactory;
 import org.openqa.selenium.WebElement;
-import org.testcontainers.shaded.org.awaitility.core.ConditionFactory;
 
 import static java.time.Duration.ofMillis;
 import static java.time.Duration.ofSeconds;
-import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
+import static org.awaitility.Awaitility.await;
 
 public class Await {
 

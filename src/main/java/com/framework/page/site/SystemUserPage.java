@@ -6,6 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
+
 @Getter
 public class SystemUserPage extends BasePage {
 
@@ -31,26 +33,26 @@ public class SystemUserPage extends BasePage {
     }
 
     public SystemUserPage searchSystemUserByUsername(String username){
-        waitForElementToAppear(searchSystemUserByUsername);
+        wait.until(visibilityOf(searchSystemUserByUsername));
         enterText(searchSystemUserByUsername, username);
         return this;
     }
 
     public SystemUserPage searchSystemUserByUserRole(UserRole userRole){
-        waitForElementToAppear(searchSystemUserByUserType).click();
+        wait.until(visibilityOf(searchSystemUserByUserType)).click();
         selectByVisibleTextInDropdown(searchSystemUserByUserType, userRole.getStrValue());
         return this;
     }
 
     public SystemUserPage searchSystemUserByEmployeeName(String employeeName){
-        waitForElementToAppear(searchSystemUserByEmployeeName);
+        wait.until(visibilityOf(searchSystemUserByEmployeeName));
         enterText(searchSystemUserByEmployeeName, employeeName);
         return this;
     }
 
 
     public SystemUserPage clickSearchButton(){
-        waitForElementToAppear(searchButton).click();
+        wait.until(visibilityOf(searchButton)).click();
         return this;
     }
 
@@ -58,9 +60,9 @@ public class SystemUserPage extends BasePage {
     @Override
     public SystemUserPage isPageLoaded() {
         waitForPageToLoad();
-        waitForElementToAppear(searchSystemUserByUsername);
-        waitForElementToAppear(searchSystemUserByUserType);
-        waitForElementToAppear(searchSystemUserByEmployeeName);
+        wait.until(visibilityOf(searchSystemUserByUsername));
+        wait.until(visibilityOf(searchSystemUserByUserType));
+        wait.until(visibilityOf(searchSystemUserByEmployeeName));
         return this;
     }
 }
