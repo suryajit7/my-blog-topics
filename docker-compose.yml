@@ -36,3 +36,4 @@ services:
       - MODULE=testng.xml
     volumes:
       - ./src/test/resources/results:/app
+      - ./src/allure-results:/app
