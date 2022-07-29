@@ -30,3 +30,5 @@ hs_err_pid*
 /target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
 /target/maven-archiver/pom.properties
 /.idea/
+/.idea/
+/target/

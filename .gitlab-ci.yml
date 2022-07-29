@@ -11,6 +11,7 @@ docker-test:
     TESTNG_FAILED_XML: jar/test-output/testng-failed.xml
 
   script:
+    - apk add tree
     - docker-compose up -d --build --scale chrome=2
     - docker wait test-run
     - chmod +x ./script.sh
@@ -22,6 +23,9 @@ docker-test:
       else
         echo "All tests passed Successfully."
       fi
+    - echo "Files:"
+    - ls
+    - find . -type d > output.txt
   after_script:
     - docker-compose down
 

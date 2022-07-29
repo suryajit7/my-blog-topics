@@ -28,8 +28,9 @@ COPY --from=package /app/target/dockerized.jar              .
 COPY --from=package /app/target/dockerized-tests.jar        .
 COPY --from=package /app/target/libs                        ./libs
 COPY testng.xml                                             .
-COPY src/main/resources/allure.properties                   ./src/main/resources/allure.properties
 COPY src/main/resources/application.properties              ./src/main/resources/application.properties
+COPY src/main/resources/allure.properties                   ./src/main/resources/allure.properties
+COPY src/main/resources/reportportal.properties              ./src/main/resources/reportportal.properties
 COPY src/test/resources/test-data                           ./src/test/resources/test-data/
 COPY run.sh                                                 .
 

@@ -96,7 +96,6 @@ public class BaseTest implements ITestListener, IInvokedMethodListener {
     public void tearDownDriver(ITestContext context) {
 
         if (context.getName().equalsIgnoreCase("UI Regression")) {
-            this.driver.get().close();
             if (null != this.driver.get()) {
                 this.driver.get().quit();
             }

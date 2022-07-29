@@ -24,7 +24,7 @@ Go to root directory and open any CLI and run the below command.
 3. Custom Assertion class
 4. Custom Await class
 5. Custom Annotations
-6. Test Reporter
+6. Report Portal
 7. Selenium Grid on Kubes
 
 8. AWS Cognito Authentication for API Testing with REST-assured ![](doc/check-mark.png)    
